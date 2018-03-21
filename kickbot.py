@@ -8,9 +8,13 @@ The following features should be implemented:
 
 Written for Python 3.6.3
 """
+import asyncio
 import discord
+import logging
 from discord.ext.commands import Bot
 from discord.ext import commands
+
+logging.basicConfig()
 
 Client = discord.Client()
 bot_prefix = "!!!"
@@ -23,8 +27,8 @@ async def on_ready():
     print("Bot Online!")
     print("Name: {}".format(client.user.name))
     print("ID: {}".format(client.user.id))
-    #await client.send_message(client.get_channel('423202673509138454'),
-                              #"Eric Brock's kickbot is online.")
+    await client.send_message(client.get_channel('423630673199497228'),
+                              "Eric Brock's kickbot is online.")
 """ Kick a user.
 """
 @client.command(pass_context=True)
@@ -36,22 +40,23 @@ async def kick(ctx, userName: discord.User):
 async def kick(ctx, userName: discord.User):
     pass
 
-""" Tell JOE and ONLY JOE to shut up.  Triggered when he uses a 'banned'
-curse word.
+""" Tell JOE and ONLY JOE to shut up.  Triggered when he uses a 'forbiddenWord.'
 """
 # Scan for messages from Joe.
 # If msg contains curse, send message.
-@client.event
-async def on_message(message):
-    forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
-                      'bitch', 'ass', 'damn', 'hell', 'balls', 'dick']
-    for i in forbiddenWords:
-        msg = message.content.lower()
-        print(message.author)
-        usr = str(message.author)
-        usr = usr[:-5]
-        print(usr)
-        if i in msg and usr == 'needyjoe':
-            await client.send_message(message.channel, "Shut the fuck up, Joe.")
+# @client.event
+# async def on_message(message):
+#     await client.process_commands(message)
+#
+#     forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
+#                       'bitch', 'ass', 'damn', 'hell', 'balls', 'dick']
+#     for i in forbiddenWords:
+#         msg = message.content.lower()
+#         print(message.author)
+#         usr = str(message.author)
+#         usr = usr[:-5]
+#         print(usr)
+#         if i in msg and usr == 'needyjoe':
+#             await client.send_message(message.channel, "Shut the fuck up, Joe.")
 
 client.run("NDIzNjU0Nzk2NTg3ODI3MjAw.DYthUA.RFjI8ZcYlqk5El-_K2fvgkF4OPY")
