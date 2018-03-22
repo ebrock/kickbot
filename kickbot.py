@@ -41,9 +41,10 @@ async def kick(ctx, userName: discord.User):
     pass
 
 """ Tell JOE and ONLY JOE to shut up.  Triggered when he uses a 'forbiddenWord.'
-"""
+
 Scan for messages from Joe.
 If msg contains curse, send message.
+"""
 @client.event
 async def on_message(message):
     await client.process_commands(message)
