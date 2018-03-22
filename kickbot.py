@@ -42,21 +42,21 @@ async def kick(ctx, userName: discord.User):
 
 """ Tell JOE and ONLY JOE to shut up.  Triggered when he uses a 'forbiddenWord.'
 """
-# Scan for messages from Joe.
-# If msg contains curse, send message.
-# @client.event
-# async def on_message(message):
-#     await client.process_commands(message)
-#
-#     forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
-#                       'bitch', 'ass', 'damn', 'hell', 'balls', 'dick']
-#     for i in forbiddenWords:
-#         msg = message.content.lower()
-#         print(message.author)
-#         usr = str(message.author)
-#         usr = usr[:-5]
-#         print(usr)
-#         if i in msg and usr == 'needyjoe':
-#             await client.send_message(message.channel, "Shut the fuck up, Joe.")
+Scan for messages from Joe.
+If msg contains curse, send message.
+@client.event
+async def on_message(message):
+    await client.process_commands(message)
+
+    forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
+                      'bitch', 'ass', 'damn', 'hell', 'balls', 'dick']
+    for i in forbiddenWords:
+        msg = message.content.lower()
+        print(message.author)
+        usr = str(message.author)
+        usr = usr[:-5]
+        print(usr)
+        if i in msg and usr == 'iamjoe':
+            await client.send_message(message.channel, "Shut the fuck up, Joe.")
 
 client.run("NDIzNjU0Nzk2NTg3ODI3MjAw.DYthUA.RFjI8ZcYlqk5El-_K2fvgkF4OPY")
