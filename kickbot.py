@@ -6,6 +6,9 @@ The following features should be implemented:
     2) Send a kicked user an SMS with Discord code to re-enter chat.
     3) Tell Joe (and only Joe) to shut up when he uses a 'banned' curse word.
 
+Contributions by:
+    - Eric Brock
+
 Written for Python 3.6.3
 """
 import asyncio
@@ -19,7 +22,7 @@ from discord.ext import commands
 logging.basicConfig()
 
 Client = discord.Client()
-bot_prefix = "!!!"
+bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
 """ Basic commands excecuted when bot is activated.
@@ -36,7 +39,7 @@ async def on_ready():
 """
 @client.command(pass_context=True)
 async def think(ctx):
-    gif = '/home/eric/Development/kickbot/think_on_your_sins.gif'
+    gif = '/home/ubuntu/Deployment/kickbot/think_on_your_sins.gif'
     await client.send_file(ctx.message.channel, gif)
 
 """ Kick a user.
@@ -50,10 +53,9 @@ async def kick(ctx, userName: discord.User):
                'No neckbeards allowed. That means you, {}.']
     emoji = [':fearful:',
              ':hammer:',
-             ':facepunch:',
-             ':neckbeard',
+             ':punch:',
              ':-1:',
-             'poop',
+             ':poop:',
              ]
 
     await client.kick(userName)
