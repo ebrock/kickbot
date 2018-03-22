@@ -11,6 +11,8 @@ Written for Python 3.6.3
 import asyncio
 import discord
 import logging
+import random
+import credentials
 from discord.ext.commands import Bot
 from discord.ext import commands
 
@@ -29,12 +31,39 @@ async def on_ready():
     print("ID: {}".format(client.user.id))
     await client.send_message(client.get_channel('423630673199497228'),
                               "Eric Brock's kickbot is online.")
+
+""" Send a message...
+"""
+@client.command(pass_context=True)
+async def think(ctx):
+    gif = '/home/eric/Development/kickbot/think_on_your_sins.gif'
+    await client.send_file(ctx.message.channel, gif)
+
 """ Kick a user.
 """
 @client.command(pass_context=True)
 async def kick(ctx, userName: discord.User):
+    phrases = ['{} HAS BEEN BANISHED TO THE SHADOW REALM!!!',
+               '{} has been crushed by Thor\'s mighty ban hammer!!!',
+               '{} has been ejected for outstanding douchebaggery!!!',
+               'NJ Chiefs raised the bar. {} fell under it.',
+               'No neckbeards allowed. That means you, {}.']
+    emoji = [':fearful:',
+             ':hammer:',
+             ':facepunch:',
+             ':neckbeard',
+             ':-1:',
+             'poop',
+             ]
+
     await client.kick(userName)
-    await client.say("{} has been BANISHED TO THE SHADOW REALM!!!".format(userName))
+    usr = str(userName)
+    print('usr: %s' % usr)
+    usr = usr[:-5]
+    print('usr: %s' % usr)
+    await client.say(random.choice(phrases).format(usr).upper()
+                     + ' '
+                     + random.choice(emoji))
 
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, userName: discord.User):
@@ -60,4 +89,4 @@ async def on_message(message):
         if i in msg and usr == 'iamjoe':
             await client.send_message(message.channel, "Shut the fuck up, Joe.")
 
-client.run("NDIzNjU0Nzk2NTg3ODI3MjAw.DYthUA.RFjI8ZcYlqk5El-_K2fvgkF4OPY")
+client.run(credentials.bot_key)
