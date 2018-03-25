@@ -74,7 +74,7 @@ async def kick(ctx, userName: discord.User):
 async def slap(ctx, userName: discord.User):
     slapper = str(ctx.message.author)[:-5]
     usr = str(userName)[:-5]
-    img = translate('slap')
+    img = translate('slap', api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
 
     await client.send_typing(ctx.message.channel)
     gif = urllib.request.urlretrieve(img.media_url, 'target.gif')
