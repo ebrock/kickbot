@@ -17,6 +17,7 @@ import logging
 import random
 import credentials
 import urllib.request
+import giphypop
 from giphypop import translate
 from discord.ext.commands import Bot
 from discord.ext import commands
@@ -74,7 +75,10 @@ async def kick(ctx, userName: discord.User):
 async def slap(ctx, userName: discord.User):
     slapper = str(ctx.message.author)[:-5]
     usr = str(userName)[:-5]
-    img = translate('slap', api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
+    # img = translate('slap', api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
+    g = giphypop.Giphy(api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
+    results = [x for x in g.search('slap')]
+    img = random.choice(results)
 
     await client.send_typing(ctx.message.channel)
     gif = urllib.request.urlretrieve(img.media_url, 'target.gif')
