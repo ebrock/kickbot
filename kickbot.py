@@ -28,6 +28,7 @@ Client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
+
 """ Basic commands excecuted when bot is activated.
 """
 @client.event
@@ -42,8 +43,8 @@ async def on_ready():
 """
 @client.command(pass_context=True)
 async def think(ctx):
-    gif = '/home/ubuntu/Deployment/kickbot/think_on_your_sins.gif'
-    await client.send_file(ctx.message.channel, gif)
+    gif = '/home/ubuntu/Deployment/kickbot/gifs/think_on_your_sins.gif'
+    await client.send_file(ctx.message.channel, fp=gif)
 
 """ Kick a user.
 """
@@ -60,15 +61,20 @@ async def kick(ctx, userName: discord.User):
              ':-1:',
              ':poop:',
              ]
+    kicker = str(ctx.message.author)[:-5]
+    usr = str(userName)[:-5]
+    kick_msg = (("You've been kicked by **{}**. You need an invite to rejoin. "
+                 + ":cry:").format(kicker))
 
+    await client.start_private_message(userName)
+    await client.send_file(userName,
+                           fp="/home/ubuntu/Deployment/kickbot/gifs/thor_ban.gif",
+                           content=kick_msg)
     await client.kick(userName)
-    usr = str(userName)
-    print('usr: %s' % usr)
-    usr = usr[:-5]
-    print('usr: %s' % usr)
     await client.say(random.choice(phrases).format(usr).upper()
                      + ' '
                      + random.choice(emoji))
+
 """Slap a user.
 """
 @client.command(pass_context=True)
@@ -83,7 +89,7 @@ async def slap(ctx, userName: discord.User):
     await client.send_typing(ctx.message.channel)
     gif = urllib.request.urlretrieve(img.media_url, 'target.gif')
     await client.say(('**{0}** slapped **{1}**!').format(slapper, usr))
-    await client.send_file(ctx.message.channel, gif[0])
+    await client.send_file(ctx.message.channel, fp=gif[0])
 
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, userName: discord.User):
