@@ -30,18 +30,15 @@ Client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
-""" Basic commands excecuted when bot is activated.
-"""
 @client.event
 async def on_ready():
+    """ Basic commands excecuted when bot is activated."""
     print("Bot Online!")
     print("Name: {}".format(client.user.name))
     print("ID: {}".format(client.user.id))
     await client.send_message(client.get_channel('423630673199497228'),
                               "Eric Brock's kickbot is online.")
 
-""" Send a message...
-"""
 @client.command(pass_context=True,
                 brief='\'Think On Your Sins\' gif',
                 description='Sends \'Think On Your Sins\' gif')
@@ -49,8 +46,6 @@ async def think(ctx):
     gif = '/home/ubuntu/Deployment/kickbot/gifs/think_on_your_sins.gif'
     await client.send_file(ctx.message.channel, fp=gif)
 
-""" Kick a user.
-"""
 @client.command(pass_context=True,
                 brief='@<user>',
                 description='Kick a mentioned user.')
@@ -80,30 +75,30 @@ async def kick(ctx, userName: discord.User):
                      + ' '
                      + random.choice(emoji))
 
-"""Mute a user.
-"""
 @client.command(pass_context=True,
                 brief='@<user> <minutes>',
-                description='Mute a user for up to 30 minutes.')
+                description='Mute a user for 1, 2, or 3 minutes.')
+@commands.cooldown(1, 30, commands.BucketType.server)
 async def mute(ctx, userName: discord.User, time):
+    muter = str(ctx.message.author)[:-5]
+    usr = str(userName)[:-5]
     print('Time: {0}'.format(time))
     if int(time) <= 0:
-        await client.say("You can't mute for 0 minutes!")
         return
-    elif int(time) > 30:
-        await client.say("You can't mute more than 30 minutes. " +
-                         "**Try again** between 1 and 30 minutes.")
+    elif int(time) > 3:
+        await client.say("Can only mute for 1, 2, or 3 minutes.")
         return
+    else:
+        role = discord.utils.get(ctx.message.server.roles, name='Chief')
+        await client.say(('**{0}** muted **{1}**: **{2}** minute(s) ' +
+                         ':speak_no_evil:').format(muter,usr,time))
+        await client.remove_roles(userName, role)
+        print("Time sleeping: {0}".format(int(time) * 60))
+        await asyncio.sleep(int(time) * 60)
+        #await asyncio.sleep(int(time)) # testing purposes
+        await client.add_roles(userName, role)
+        await client.say(('**{0}** is unmuted.').format(usr))
 
-    role = discord.utils.get(ctx.message.server.roles, name='Chief')
-    await client.remove_roles(userName, role)
-    print("Time sleeping: {0}".format(int(time) * 60))
-    await asyncio.sleep(int(time) * 60)
-    await client.add_roles(userName, role)
-
-
-"""Slap a user.
-"""
 @client.command(pass_context=True,
                 brief='@<user>',
                 description='Grabs a random gif and slaps the mentioned user.')
@@ -111,7 +106,7 @@ async def slap(ctx, userName: discord.User):
     slapper = str(ctx.message.author)[:-5]
     usr = str(userName)[:-5]
     # img = translate('slap', api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
-    g = giphypop.Giphy(api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
+    g = giphypop.Giphy(api_key=config.giphy_key)
     results = [x for x in g.search('slap')]
     img = random.choice(results)
 
@@ -136,13 +131,9 @@ async def on_command_error(error, ctx):
                                   'Bad argument. ' +
                                   'Try the $help command.')
 
-""" Tell JOE and ONLY JOE to shut up.  Triggered when he uses a 'forbiddenWord.'
-
-Scan for messages from Joe.
-If msg contains curse, send message.
-"""
 @client.event
 async def on_message(message):
+    """ Tell JOE and ONLY JOE to shut up."""
     await client.process_commands(message)
 
     forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
@@ -154,11 +145,10 @@ async def on_message(message):
         if i in msg and usr == 'iamjoe':
             await client.send_message(message.channel, "Shut the fuck up, Joe.")
 
-"""Make every new member a Chief
-"""
 @client.event
 async def on_member_join(userName):
+    """Make every new member a Chief."""
     role = discord.utils.get(userName.server.roles, name='Chief')
     await client.add_roles(userName, role)
 
-client.run(config.test_bot)
+client.run(config.test)
