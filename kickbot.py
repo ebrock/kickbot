@@ -151,4 +151,4 @@ async def on_member_join(userName):
     role = discord.utils.get(userName.server.roles, name='Chief')
     await client.add_roles(userName, role)
 
-client.run(config.test)
+client.run(config.token)
