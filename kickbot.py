@@ -2,9 +2,10 @@
 such as kicking and messaging.
 
 The following features should be implemented:
-    1) Kick a user.
-    2) Send a kicked user an SMS with Discord code to re-enter chat.
-    3) Tell Joe (and only Joe) to shut up when he uses a 'banned' curse word.
+    1) Rework code. Create classes for functions. Call them here.
+
+Housekeeping
+    1) Cleanup code.
 
 Contributions by:
     - Eric Brock
@@ -18,6 +19,7 @@ import random
 import credentials
 import urllib.request
 import giphypop
+from threading import Timer
 from giphypop import translate
 from discord.ext.commands import Bot
 from discord.ext import commands
@@ -75,6 +77,17 @@ async def kick(ctx, userName: discord.User):
                      + ' '
                      + random.choice(emoji))
 
+"""Mute a user.
+"""
+@client.command(pass_context=True)
+async def mute(ctx, userName: discord.User, time)
+
+
+    cmd = await client.remove_role(userName)
+    t = Timer(5.0, cmd)
+    t.start()
+
+
 """Slap a user.
 """
 @client.command(pass_context=True)
@@ -113,4 +126,4 @@ async def on_message(message):
         if i in msg and usr == 'iamjoe':
             await client.send_message(message.channel, "Shut the fuck up, Joe.")
 
-client.run(credentials.bot_key)
+client.run(config.test_bot)
