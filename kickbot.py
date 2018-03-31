@@ -105,7 +105,7 @@ async def mute(ctx, userName: discord.User, time):
 async def slap(ctx, userName: discord.User):
     slapper = str(ctx.message.author)[:-5]
     usr = str(userName)[:-5]
-    # img = translate('slap', api_key='OAPo1ZgCQU2fMEWGtm1y2UiAeAX7uJSK')
+    # img = translate('slap', api_key='config.giphy_key') # less random
     g = giphypop.Giphy(api_key=config.giphy_key)
     results = [x for x in g.search('slap')]
     img = random.choice(results)
