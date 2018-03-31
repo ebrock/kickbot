@@ -16,7 +16,7 @@ import asyncio
 import discord
 import logging
 import random
-import credentials
+import config
 import urllib.request
 import giphypop
 from threading import Timer
@@ -30,7 +30,6 @@ Client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
-
 """ Basic commands excecuted when bot is activated.
 """
 @client.event
@@ -43,14 +42,18 @@ async def on_ready():
 
 """ Send a message...
 """
-@client.command(pass_context=True)
+@client.command(pass_context=True,
+                brief='\'Think On Your Sins\' gif',
+                description='Sends \'Think On Your Sins\' gif')
 async def think(ctx):
     gif = '/home/ubuntu/Deployment/kickbot/gifs/think_on_your_sins.gif'
     await client.send_file(ctx.message.channel, fp=gif)
 
 """ Kick a user.
 """
-@client.command(pass_context=True)
+@client.command(pass_context=True,
+                brief='@<user>',
+                description='Kick a mentioned user.')
 async def kick(ctx, userName: discord.User):
     phrases = ['**{}** HAS BEEN BANISHED TO THE SHADOW REALM!!!',
                '**{}** has been crushed by Thor\'s mighty ban hammer!!!',
@@ -79,18 +82,31 @@ async def kick(ctx, userName: discord.User):
 
 """Mute a user.
 """
-@client.command(pass_context=True)
-async def mute(ctx, userName: discord.User, time)
+@client.command(pass_context=True,
+                brief='@<user> <minutes>',
+                description='Mute a user for up to 30 minutes.')
+async def mute(ctx, userName: discord.User, time):
+    print('Time: {0}'.format(time))
+    if int(time) <= 0:
+        await client.say("You can't mute for 0 minutes!")
+        return
+    elif int(time) > 30:
+        await client.say("You can't mute more than 30 minutes. " +
+                         "**Try again** between 1 and 30 minutes.")
+        return
 
-
-    cmd = await client.remove_role(userName)
-    t = Timer(5.0, cmd)
-    t.start()
+    role = discord.utils.get(ctx.message.server.roles, name='Chief')
+    await client.remove_roles(userName, role)
+    print("Time sleeping: {0}".format(int(time) * 60))
+    await asyncio.sleep(int(time) * 60)
+    await client.add_roles(userName, role)
 
 
 """Slap a user.
 """
-@client.command(pass_context=True)
+@client.command(pass_context=True,
+                brief='@<user>',
+                description='Grabs a random gif and slaps the mentioned user.')
 async def slap(ctx, userName: discord.User):
     slapper = str(ctx.message.author)[:-5]
     usr = str(userName)[:-5]
@@ -107,6 +123,18 @@ async def slap(ctx, userName: discord.User):
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, userName: discord.User):
     pass
+
+# This needs some fixin'.
+@client.event
+async def on_command_error(error, ctx):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await client.send_message(ctx.message.channel,
+                                  'Missing a required argument. ' +
+                                  'Try the $help command.')
+    elif isinstance(error, commands.BadArgument):
+        await client.send_message(ctx.message.channel,
+                                  'Bad argument. ' +
+                                  'Try the $help command.')
 
 """ Tell JOE and ONLY JOE to shut up.  Triggered when he uses a 'forbiddenWord.'
 
@@ -125,5 +153,12 @@ async def on_message(message):
         usr = usr[:-5]
         if i in msg and usr == 'iamjoe':
             await client.send_message(message.channel, "Shut the fuck up, Joe.")
+
+"""Make every new member a Chief
+"""
+@client.event
+async def on_member_join(userName):
+    role = discord.utils.get(userName.server.roles, name='Chief')
+    await client.add_roles(userName, role)
 
 client.run(config.test_bot)
