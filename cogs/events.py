@@ -5,6 +5,7 @@ from config.variables import forbiddenWords
 from discord.ext import commands
 
 class EventsCog:
+    """Events monitored by kickbot."""
 
     def __init__(self, client):
         self.client = client
@@ -22,7 +23,7 @@ class EventsCog:
     async def on_message(self, message):
         """ Tell JOE and ONLY JOE to shut up."""
         # await self.client.process_commands(message) # not necessary in cog
-        msg = message.content.lower()]
+        msg = message.content.lower()
         for word in forbiddenWords:
             if word in msg and message.author.name == 'i-am-new-hello':
                 await self.client.send_message(message.channel, "Shut the fuck up, Joe.")
