@@ -12,6 +12,8 @@ Contributions by:
 
 Written for Python 3.6.3
 """
+import os
+#import cogs
 import asyncio
 import discord
 import logging
@@ -43,37 +45,49 @@ async def on_ready():
                 brief='\'Think On Your Sins\' gif',
                 description='Sends \'Think On Your Sins\' gif')
 async def think(ctx):
-    gif = '/home/ubuntu/Deployment/kickbot/gifs/think_on_your_sins.gif'
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    gif = dir_path + '/gifs/think_on_your_sins.gif'
     await client.send_file(ctx.message.channel, fp=gif)
 
 @client.command(pass_context=True,
                 brief='@<user>',
                 description='Kick a mentioned user.')
 async def kick(ctx, userName: discord.User):
-    phrases = ['**{}** HAS BEEN BANISHED TO THE SHADOW REALM!!!',
-               '**{}** has been crushed by Thor\'s mighty ban hammer!!!',
-               '**{}** has been ejected for outstanding douchebaggery!!!',
-               'NJ Chiefs raised the bar. **{}** fell under it.',
-               'No neckbeards allowed. That means you, **{}**.']
+    phrases = ['**{0.name}** HAS BEEN BANISHED TO THE SHADOW REALM!!!',
+               '**{0.name}** has been crushed by Thor\'s mighty ban hammer!!!',
+               '**{0.name}** has been ejected for outstanding douchebaggery!!!',
+               'NJ Chiefs raised the bar. **{0.name}** fell under it.',
+               'No neckbeards allowed. That means you, **{0.name}**.']
     emoji = [':fearful:',
              ':hammer:',
              ':punch:',
              ':-1:',
-             ':poop:',
-             ]
-    kicker = str(ctx.message.author)[:-5]
-    usr = str(userName)[:-5]
-    kick_msg = (("You've been kicked by **{}**. You need an invite to rejoin. "
+             ':poop:']
+    kicker = ctx.message.author
+    inv_link = await client.create_invite(ctx.message.channel,
+                                          max_age=1,
+                                          max_uses=1,
+                                          temporary=False,
+                                          unique=True)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    gif = dir_path + '/gifs/thor_ban.gif'
+    kick_msg = (("You've been kicked by **{0.name}**. You need an invite to rejoin. "
                  + ":cry:").format(kicker))
-
-    await client.start_private_message(userName)
-    await client.send_file(userName,
-                           fp="/home/ubuntu/Deployment/kickbot/gifs/thor_ban.gif",
-                           content=kick_msg)
-    await client.kick(userName)
-    await client.say(random.choice(phrases).format(usr).upper()
-                     + ' '
+    print('userNamed.id: ' + userName.id)
+    await client.say(random.choice(phrases).format(userName).upper() + ' '
                      + random.choice(emoji))
+    await client.send_file(userName, fp=gif, content=kick_msg)
+    await asyncio.sleep(10) # in seconds
+    await client.send_message(userName.id, inv_link)
+
+@client.command(pass_context=True)
+async def invite(ctx, userName: discord.User):
+    inv_link = await client.create_invite(ctx.message.channel,
+                                          max_age=1,
+                                          max_uses=1,
+                                          temporary=False,
+                                          unique=True)
+    await client.send_message(client.userName, inv_link)
 
 @client.command(pass_context=True,
                 brief='@<user> <minutes>',
@@ -105,13 +119,12 @@ async def mute(ctx, userName: discord.User, time):
 async def slap(ctx, userName: discord.User):
     slapper = str(ctx.message.author)[:-5]
     usr = str(userName)[:-5]
-    # img = translate('slap', api_key='config.giphy_key') # less random
     g = giphypop.Giphy(api_key=config.giphy_key)
     results = [x for x in g.search('slap')]
     img = random.choice(results)
+    gif = urllib.request.urlretrieve(img.media_url, 'target.gif')
 
     await client.send_typing(ctx.message.channel)
-    gif = urllib.request.urlretrieve(img.media_url, 'target.gif')
     await client.say(('**{0}** slapped **{1}**!').format(slapper, usr))
     await client.send_file(ctx.message.channel, fp=gif[0])
 
@@ -119,7 +132,6 @@ async def slap(ctx, userName: discord.User):
 async def kick(ctx, userName: discord.User):
     pass
 
-# This needs some fixin'.
 @client.event
 async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -151,4 +163,4 @@ async def on_member_join(userName):
     role = discord.utils.get(userName.server.roles, name='Chief')
     await client.add_roles(userName, role)
 
-client.run(config.token)
+client.run(config.test)
