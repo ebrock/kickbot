@@ -10,16 +10,6 @@ class EventsCog:
     def __init__(self, client):
         self.client = client
 
-    # async def on_command_error(self, error, ctx):
-    #     if isinstance(error, commands.MissingRequiredArgument):
-    #         await self.client.send_message(ctx.message.channel,
-    #                                   'Missing a required argument. ' +
-    #                                   'Try the $help command.')
-    #     elif isinstance(self, error, commands.BadArgument):
-    #         await self.client.send_message(ctx.message.channel,
-    #                                   'Bad argument. ' +
-    #                                   'Try the $help command.')
-
     async def on_message(self, message):
         """ Tell JOE and ONLY JOE to shut up."""
         # await self.client.process_commands(message) # not necessary in cog
