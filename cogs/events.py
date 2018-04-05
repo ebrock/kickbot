@@ -19,18 +19,18 @@ class EventsCog:
                                       'Bad argument. ' +
                                       'Try the $help command.')
 
-    # async def on_message(self, message):
-    #     """ Tell JOE and ONLY JOE to shut up."""
-    #     #await self.client.process_commands(message)
-    #
-    #     forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
-    #                       'bitch', 'ass', 'damn', 'hell', 'balls', 'dick']
-    #     for i in forbiddenWords:
-    #         msg = message.content.lower()
-    #         usr = str(message.author)
-    #         usr = usr[:-5]
-    #         if i in msg and usr == 'iamjoe':
-    #             await self.client.send_message(message.channel, "Shut the fuck up, Joe.")
+    async def on_message(self, message):
+        """ Tell JOE and ONLY JOE to shut up."""
+        # await self.client.process_commands(message) # not necessary in cog
+
+        forbiddenWords = ['crap', 'dang', 'fuck', 'shit', 'pussy', 'cunt',
+                          'bitch', 'ass', 'damn', 'hell', 'balls', 'dick']
+        for i in forbiddenWords:
+            msg = message.content.lower()
+            usr = str(message.author)
+            usr = usr[:-5]
+            if i in msg and usr == 'i-am-new-hello':
+                await self.client.send_message(message.channel, "Shut the fuck up, Joe.")
 
     async def on_member_join(self, userName):
         """Make every new member a Chief."""
