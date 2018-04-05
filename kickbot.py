@@ -33,6 +33,12 @@ if __name__ == '__main__':
             traceback.print_exc()
 
 @client.event
+async def on_command_error(error, ctx):
+    if isinstance(error, commands.CommandOnCooldown):
+        await client.send_message(ctx.message.channel, content='This command is on a %.2fs cooldown' % error.retry_after)
+    raise error
+
+@client.event
 async def on_ready():
     """ Basic commands excecuted when bot is activated."""
     print("Bot Online!")
