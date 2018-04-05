@@ -37,7 +37,7 @@ class ActionsCog:
         await self.client.send_file(userName, fp=gif, content=kick_msg)
         await self.client.kick(userName)
 
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, brief="Creates a 1 time use invite.")
     async def inv(self, ctx):
         inv_link = await self.client.create_invite(ctx.message.channel,
                                                    max_age=1, max_uses=1)
@@ -45,7 +45,7 @@ class ActionsCog:
 
     @commands.command(pass_context=True, brief='@<user> <minutes>',
                       description='Mute a user for 1, 2, or 3 minutes.')
-    @commands.cooldown(1, 30, commands.BucketType.server)
+    @commands.cooldown(1, 180, commands.BucketType.server)
     async def mute(self, ctx, userName: discord.User, time):
         muter = str(ctx.message.author)[:-5]
         usr = str(userName)[:-5]

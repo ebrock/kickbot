@@ -39,12 +39,12 @@ if __name__ == '__main__':
 async def on_command_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await client.send_message(ctx.message.channel, content='This command is on a %.2fs cooldown' % error.retry_after)
-    elif isinstance(error, commands.MissingRequiredArgument):
-        await self.client.send_message(ctx.message.channel,
+    if isinstance(error, commands.MissingRequiredArgument):
+        await client.send_message(ctx.message.channel,
                                   'Missing a required argument. ' +
                                   'Try the $help command.')
-    elif isinstance(self, error, commands.BadArgument):
-        await self.client.send_message(ctx.message.channel,
+    if isinstance(error, commands.BadArgument):
+        await client.send_message(ctx.message.channel,
                                   'Bad argument. ' +
                                   'Try the $help command.')
     raise error
