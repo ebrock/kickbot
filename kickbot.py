@@ -32,7 +32,7 @@ if __name__ == '__main__':
         try:
             client.load_extension(cog)
         except Exception as e:
-            print(f'Failed to load extension {cog}.', file=sys.stderr)
+            print('Failed to load extension {cog}.', file=sys.stderr)
             traceback.print_exc()
 
 @client.event
