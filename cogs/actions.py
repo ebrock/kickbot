@@ -14,12 +14,10 @@ class ActionsCog:
 
     def __init__(self, client):
         self.client = client
-        print('ActionsCog is called!')
 
     @commands.command(pass_context=True, brief='\'Think On Your Sins\' gif',
                       description='Sends \'Think On Your Sins\' gif')
     async def think(self, ctx):
-        print('calling slap')
         dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
         gif = dir_path + '/gifs/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
@@ -105,5 +103,4 @@ class ActionsCog:
 
 
 def setup(client):
-    print('setting up action!')
     client.add_cog(ActionsCog(client))
