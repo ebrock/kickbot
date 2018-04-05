@@ -27,14 +27,14 @@ from giphypop import translate
 from discord.ext.commands import Bot
 from discord.ext import commands
 
-logging.basicConfig()
+logging.basicConfig(level=logging.INFO)
 
 Client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
 cogs = ['cogs.actions',
-                      'cogs.events']
+        'cogs.events']
 
 print('before it happens')
 if __name__ == '__main__':
@@ -43,7 +43,7 @@ if __name__ == '__main__':
             print('try to load')
             client.load_extension(cog)
         except Exception as e:
-            print(f'Failed to load extension {extension}.', file=sys.stderr)
+            print(f'Failed to load extension {cog}.', file=sys.stderr)
             traceback.print_exc()
 
 @client.event

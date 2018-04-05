@@ -19,6 +19,7 @@ class ActionsCog:
     @commands.command(pass_context=True, brief='\'Think On Your Sins\' gif',
                       description='Sends \'Think On Your Sins\' gif')
     async def think(self, ctx):
+        print('calling slap')
         dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
         gif = dir_path + '/gifs/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
