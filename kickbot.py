@@ -15,7 +15,10 @@ from config.config import test
 from discord.ext.commands import Bot
 from discord.ext import commands
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO,
+                    filename='logfile.log',
+                    format='%(asctime)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p')
 
 Client = discord.Client()
 bot_prefix = "$"
@@ -36,6 +39,14 @@ if __name__ == '__main__':
 async def on_command_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
         await client.send_message(ctx.message.channel, content='This command is on a %.2fs cooldown' % error.retry_after)
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await self.client.send_message(ctx.message.channel,
+                                  'Missing a required argument. ' +
+                                  'Try the $help command.')
+    elif isinstance(self, error, commands.BadArgument):
+        await self.client.send_message(ctx.message.channel,
+                                  'Bad argument. ' +
+                                  'Try the $help command.')
     raise error
 
 @client.event
