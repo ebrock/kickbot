@@ -119,6 +119,13 @@ async def slap(ctx, userName: discord.User):
 async def kick(ctx, userName: discord.User):
     pass
 
+@client.command(pass_context=True,
+                brief='Generates a one-time use invite. 24 hour life.',
+                description='Generates an invite link. One time use, 24 hours.')
+async def inv(ctx):
+    inv_link = await client.create_invite(ctx.message.channel,max_age=1,max_uses=1)
+    await client.send_message(ctx.message.author, inv_link)
+
 # This needs some fixin'.
 @client.event
 async def on_command_error(error, ctx):
@@ -151,4 +158,4 @@ async def on_member_join(userName):
     role = discord.utils.get(userName.server.roles, name='Chief')
     await client.add_roles(userName, role)
 
-client.run(config.token)
+client.run(config.test)
