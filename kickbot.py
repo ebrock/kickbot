@@ -46,6 +46,16 @@ if __name__ == '__main__':
             print(f'Failed to load extension {cog}.', file=sys.stderr)
             traceback.print_exc()
 
+# async def on_command_error(self, error, ctx):
+#     if isinstance(error, commands.MissingRequiredArgument):
+#         await self.client.send_message(ctx.message.channel,
+#                                   'Missing a required argument. ' +
+#                                   'Try the $help command.')
+#     elif isinstance(error, commands.BadArgument):
+#         await self.client.send_message(ctx.message.channel,
+#                                   'Bad argument. ' +
+#                                   'Try the $help command.')
+
 @client.event
 async def on_ready():
     """ Basic commands excecuted when bot is activated."""

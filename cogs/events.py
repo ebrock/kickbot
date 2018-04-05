@@ -2,6 +2,8 @@ import os
 import discord
 import config
 import sys, traceback
+#from discord.ext.commands import Bot
+from discord.ext import commands
 
 class EventsCog:
 
@@ -9,15 +11,15 @@ class EventsCog:
         self.client = client
         print('EventsCog is called!')
 
-    async def on_command_error(self, error, ctx):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await self.client.send_message(ctx.message.channel,
-                                      'Missing a required argument. ' +
-                                      'Try the $help command.')
-        elif isinstance(error, commands.BadArgument):
-            await client.send_message(ctx.message.channel,
-                                      'Bad argument. ' +
-                                      'Try the $help command.')
+    # async def on_command_error(self, error, ctx):
+    #     if isinstance(error, commands.MissingRequiredArgument):
+    #         await self.client.send_message(ctx.message.channel,
+    #                                   'Missing a required argument. ' +
+    #                                   'Try the $help command.')
+    #     elif isinstance(self, error, commands.BadArgument):
+    #         await self.client.send_message(ctx.message.channel,
+    #                                   'Bad argument. ' +
+    #                                   'Try the $help command.')
 
     async def on_message(self, message):
         """ Tell JOE and ONLY JOE to shut up."""

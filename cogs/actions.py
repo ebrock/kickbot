@@ -82,8 +82,7 @@ class ActionsCog:
                              ':speak_no_evil:').format(muter,usr,time))
             await self.client.remove_roles(userName, role)
             print("Time sleeping: {0}".format(int(time) * 60))
-            await self.asyncio.sleep(int(time) * 60)
-            #await asyncio.sleep(int(time)) # testing purposes
+            await asyncio.sleep(int(time) * 60)
             await self.client.add_roles(userName, role)
             await self.client.say(('**{0}** is unmuted.').format(usr))
 
@@ -96,7 +95,7 @@ class ActionsCog:
         results = [x for x in g.search('slap')]
         img = random.choice(results)
         dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        gif = dir_path + '/target.gif'
+        gif = dir_path + '/gifs/target.gif'
         gif = urllib.request.urlretrieve(img.media_url, gif)
 
         await self.client.send_typing(ctx.message.channel)
