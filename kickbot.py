@@ -11,7 +11,7 @@ import discord
 import logging
 import config.config
 import sys, traceback
-from config.config import test
+from config.config import token, test
 from discord.ext.commands import Bot
 from discord.ext import commands
 
