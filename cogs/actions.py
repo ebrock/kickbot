@@ -47,11 +47,9 @@ class ActionsCog:
                       description='Mute a user for 1, 2, or 3 minutes.')
     @commands.cooldown(1, 180, commands.BucketType.server)
     async def mute(self, ctx, userName: discord.User, time):
-        muter = str(ctx.message.author)[:-5]
-        usr = str(userName)[:-5]
         print('Time: {0}'.format(time))
-        if (int(time) <= 0 or int(time) > 3):
-            await self.client.say("Can only mute for 1, 2, or 3 minutes.")
+        if (int(time) < 1 or int(time) > 3):
+            await self.client.say("Mute time: 1, 2, or 3 minutes.")
             return
         else:
             role = discord.utils.get(ctx.message.server.roles, name='Chief')

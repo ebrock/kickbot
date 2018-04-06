@@ -58,4 +58,4 @@ async def on_ready():
     await client.send_message(client.get_channel('423630673199497228'),
                               "Eric Brock's kickbot is online.")
 
-client.run(token)
+client.run(test)
