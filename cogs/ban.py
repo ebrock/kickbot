@@ -11,10 +11,8 @@ class BanCog:
         bans = await self.client.get_bans(ctx.message.server)
         await self.client.say('**BAN LIST**\n')
         for i in bans:
-            print('{0}: {1}'.format(bans.index(i), i.name))
-
-        await self.client.say('{0}: {1}\n'
-                            + '------------------\n'.format(bans.index(i), i.name))
+            print('{0}: {1}'.format(bans.index(i), i))
+            await self.client.say('{0}: {1} - id: {2}'.format(bans.index(i), i, i.id))
 
     @commands.command(pass_context=True)
     async def ban(self, ctx, userName: discord.User):
@@ -22,9 +20,17 @@ class BanCog:
         await self.client.ban(userName, delete_message_days=0)
 
     @commands.command(pass_context=True)
-    async def unban(self, ctx, userName: discord.User):
-        await self.client.say('Unbanned!')
-        await self.client.unban(ctx.message.server, userName.id)
+    async def unban(self, ctx, argument):
+        user_id = int(argument, base=10)
+        print('user_id', user_id)
+        ban_list = await self.client.get_bans(ctx.message.server)
+        print('ban_list: ', ban_list)
+
+        for i in ban_list:
+            print('i.id: ', i.id)
+            if i.id == str(user_id):
+                print('success!')
+                await self.client.unban(ctx.message.server, i)
 
 
 def setup(client):
