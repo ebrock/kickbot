@@ -23,6 +23,21 @@ class ActionsCog:
         gif = dir_path + '/gifs/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
 
+    #  def add_to_list(user_id):
+    #     kick_list.append(user_id)
+    #     return user_id
+    #
+    # def list_kicked_users():
+    #     if kick_list == 0:
+    #         return("No kicked users!")
+    #     else:
+    #         for user in kick_list:
+    #             print(user_id)
+    #
+    # def remove_from_list(user_id):
+    #     kick_list.remove(user_id)
+    #     return user_id
+
     @commands.command(pass_context=True, brief='@<user>',
                       description='Kick a mentioned user.')
     async def kick(self, ctx, userName: discord.User):
@@ -40,7 +55,7 @@ class ActionsCog:
     @commands.command(pass_context=True, brief="Creates a 1 time use invite.")
     async def inv(self, ctx):
         inv_link = await self.client.create_invite(ctx.message.channel,
-                                                   max_age=1, max_uses=1)
+                                                   max_age=60, max_uses=1)
         await self.client.send_message(ctx.message.author, inv_link)
 
     @commands.command(pass_context=True, brief='@<user> <minutes>',

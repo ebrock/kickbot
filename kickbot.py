@@ -25,7 +25,8 @@ bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
 cogs = ['cogs.actions',
-        'cogs.events']
+        'cogs.events',
+        'cogs.ban']
 
 if __name__ == '__main__':
     for cog in cogs:
