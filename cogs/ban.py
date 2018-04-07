@@ -26,5 +26,6 @@ class BanCog:
         await self.client.say('Unbanned!')
         await self.client.unban(ctx.message.server, userName.id)
 
+
 def setup(client):
     client.add_cog(BanCog(client))

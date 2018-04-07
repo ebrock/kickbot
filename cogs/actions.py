@@ -23,21 +23,6 @@ class ActionsCog:
         gif = dir_path + '/gifs/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
 
-    #  def add_to_list(user_id):
-    #     kick_list.append(user_id)
-    #     return user_id
-    #
-    # def list_kicked_users():
-    #     if kick_list == 0:
-    #         return("No kicked users!")
-    #     else:
-    #         for user in kick_list:
-    #             print(user_id)
-    #
-    # def remove_from_list(user_id):
-    #     kick_list.remove(user_id)
-    #     return user_id
-
     @commands.command(pass_context=True, brief='@<user>',
                       description='Kick a mentioned user.')
     async def kick(self, ctx, userName: discord.User):
