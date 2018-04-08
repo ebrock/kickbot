@@ -23,10 +23,13 @@ class EventsCog:
         role = discord.utils.get(userName.server.roles, name='Chief')
         await self.client.add_roles(userName, role)
 
-    async def on_member_unban(self, server, user):
-        inv_link = await self.client.create_invite(ctx.message.channel,
-                                                   max_age=60, max_uses=1)
-        await self.client.send_message(user, inv_link)
+    async def on_member_unban(self, server, userName):
+        #channels = server.channels
+        print('username: ', userName)
+        channel = self.client.get_channel('423630673199497228')
+        inv_link = await self.client.create_invite(channel, max_age=60, max_uses=1)
+        await self.client.start_private_message(userName)
+        await self.client.send_message(userName, inv_link)
 
 def setup(client):
     client.add_cog(EventsCog(client))

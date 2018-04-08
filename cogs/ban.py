@@ -31,7 +31,8 @@ class BanCog:
             if i.id == str(user_id):
                 print('success!')
                 await self.client.unban(ctx.message.server, i)
-
+                print('unbanned!')
+                await self.client.say('unbanned!')
 
 def setup(client):
     client.add_cog(BanCog(client))
