@@ -5,6 +5,7 @@ import discord
 import random
 import urllib.request
 import giphypop
+import youtube_dl
 from config.variables import phrases, emoji
 from config.config import giphy_key
 from discord.ext.commands import Bot
@@ -15,6 +16,15 @@ class ActionsCog:
 
     def __init__(self, client):
         self.client = client
+
+    @commands.command(pass_context=True)
+    async def yt(self, ctx, url):
+        author = ctx.message.author
+        voice_channel = author.voice_channel
+        vc = await self.client.join_voice_channel(voice_channel)
+
+        player = await vc.create_ytdl_player(url)
+        player.start()
 
     @commands.command(pass_context=True, brief='\'Think On Your Sins\' gif',
                       description='Sends \'Think On Your Sins\' gif')
