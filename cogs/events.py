@@ -19,7 +19,7 @@ class EventsCog:
         msg = message.content.lower()
         for word in forbiddenWords:
             rand = random.randint(1, 10)
-            if word in msg and message.author.name == 'i-am-new-hello' and rand == 10:
+            if word in msg and message.author.name == 'needyjoe' and rand == 10:
                 print('cpt triggered')
                 await self.client.send_typing(message.channel)
                 await self.client.send_file(message.channel, fp=gif)
