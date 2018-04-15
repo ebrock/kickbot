@@ -20,14 +20,14 @@ class ActionsCog:
                       description='Sends \'Think On Your Sins\' gif')
     async def think(self, ctx):
         dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        gif = dir_path + '/gifs/think_on_your_sins.gif'
+        gif = dir_path + '/media/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
 
     @commands.command(pass_context=True, brief='@<user>',
                       description='Kick a mentioned user.')
     async def kick(self, ctx, userName: discord.User):
         dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        gif = dir_path + '/gifs/thor_ban.gif'
+        gif = dir_path + '/media/thor_ban.gif'
         kick_msg = (("You've been kicked by **{0.name}**. "
                      + "You need an invite to rejoin. "
                      + ":cry:").format(ctx.message.author))
@@ -68,7 +68,7 @@ class ActionsCog:
         results = [x for x in g.search('slap')]
         img = random.choice(results)
         dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        gif = dir_path + '/gifs/target.gif'
+        gif = dir_path + '/media/target.gif'
 
         return urllib.request.urlretrieve(img.media_url, gif)
 
