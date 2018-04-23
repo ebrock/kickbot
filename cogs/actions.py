@@ -81,6 +81,23 @@ class ActionsCog:
                                                 ctx.message.author, userName))
         await self.client.send_file(ctx.message.channel, fp=gif[0])
 
+    # quickly written. rewrite this in the future.
+    @commands.command(pass_context=True, description='Adds Westworld role.')
+    async def westworld(self, ctx):
+        try:
+            usr_roles = discord.utils.get(ctx.message.author.roles, name='Westworld')
+        except:
+            print('Does not have Westworld role.')
+
+        role = discord.utils.get(ctx.message.server.roles, name='Westworld')
+
+        if usr_roles is None:
+            await self.client.add_roles(ctx.message.author, role)
+        else:
+            await self.client.remove_roles(ctx.message.author, role)
+
+
+
 
 
 def setup(client):
