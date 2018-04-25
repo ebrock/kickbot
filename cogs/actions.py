@@ -23,19 +23,19 @@ class ActionsCog:
         gif = dir_path + '/media/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
 
-    @commands.command(pass_context=True, brief='@<user>',
-                      description='Kick a mentioned user.')
-    async def kick(self, ctx, userName: discord.User):
-        dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        gif = dir_path + '/media/thor_ban.gif'
-        kick_msg = (("You've been kicked by **{0.name}**. "
-                     + "You need an invite to rejoin. "
-                     + ":cry:").format(ctx.message.author))
-
-        await self.client.say(random.choice(phrases).format(userName).upper() + ' '
-                         + random.choice(emoji))
-        await self.client.send_file(userName, fp=gif, content=kick_msg)
-        await self.client.kick(userName)
+    # @commands.command(pass_context=True, brief='@<user>',
+    #                   description='Kick a mentioned user.')
+    # async def kick(self, ctx, userName: discord.User):
+    #     dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+    #     gif = dir_path + '/media/thor_ban.gif'
+    #     kick_msg = (("You've been kicked by **{0.name}**. "
+    #                  + "You need an invite to rejoin. "
+    #                  + ":cry:").format(ctx.message.author))
+    #
+    #     await self.client.say(random.choice(phrases).format(userName).upper() + ' '
+    #                      + random.choice(emoji))
+    #     await self.client.send_file(userName, fp=gif, content=kick_msg)
+    #     await self.client.kick(userName)
 
     @commands.command(pass_context=True, brief="Creates a 1 time use invite.")
     async def inv(self, ctx):

@@ -16,8 +16,30 @@ class BanCog:
 
     @commands.command(pass_context=True)
     async def ban(self, ctx, userName: discord.User):
-        await self.client.say('Banned!')
-        await self.client.ban(userName, delete_message_days=0)
+        usr_roles = None
+        try:
+            usr_roles = discord.utils.get(userName.roles, name='Chief')
+            role = discord.utils.get(ctx.message.server.roles, name='Chief')
+        except:
+            print('Something went wrong.')
+
+        if usr_roles is None:
+            print("User is not Chief.")
+        else:
+            await self.client.remove_roles(userName, role)
+            print("Removed User as Chief.")
+
+        # dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+        # gif = dir_path + '/media/thor_ban.gif'
+        # kick_msg = (("You've been kicked by **{0.name}**. "
+        #              + "You need an invite to rejoin. "
+        #              + ":cry:").format(ctx.message.author))
+
+        # await self.client.say(random.choice(phrases).format(userName).upper() + ' '
+        #                  + random.choice(emoji))
+        # await self.client.send_file(userName, fp=gif, content=kick_msg)
+
+
 
     @commands.command(pass_context=True)
     async def unban(self, ctx, argument):
