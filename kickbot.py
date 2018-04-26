@@ -9,9 +9,10 @@ Written for Python 3.6.3
 import cogs
 import discord
 import logging
+import argparse
 import config.config
 import sys, traceback
-from config.config import token, test
+from config.config import prod, test
 from discord.ext.commands import Bot
 from discord.ext import commands
 
@@ -19,6 +20,18 @@ logging.basicConfig(level=logging.INFO,
                     filename='logfile.log',
                     format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p')
+
+def configure():
+    token = prod
+    parser = argparse.ArgumentParser(description='Select token.')
+    parser.add_argument('-t', '--test', help='Use test token.',
+                        action='store_true')
+
+    args = parser.parse_args()
+    if args.test:
+        token = test
+
+    return token
 
 Client = discord.Client()
 bot_prefix = "$"
@@ -29,6 +42,7 @@ cogs = ['cogs.actions',
         'cogs.ban']
 
 if __name__ == '__main__':
+    token = configure()
     for cog in cogs:
         try:
             client.load_extension(cog)
@@ -53,10 +67,10 @@ async def on_command_error(error, ctx):
 @client.event
 async def on_ready():
     """ Basic commands excecuted when bot is activated."""
-    print("Bot Online!")
+    print("Kickbot Online!")
     print("Name: {}".format(client.user.name))
     print("ID: {}".format(client.user.id))
-    await client.send_message(client.get_channel('423630673199497228'),
-                              "Eric Brock's kickbot is online.")
+    # await client.send_message(client.get_channel('423630673199497228'),
+    #                          "Eric Brock's kickbot is online.")
 
 client.run(token)
