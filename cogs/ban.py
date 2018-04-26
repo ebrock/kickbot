@@ -24,7 +24,7 @@ class BanCog:
             if 'Chief' not in role_names:
                 ban_list.append(member.name)
 
-        await self.client.say(ban_list)
+        await self.client.say(ban_list) # clean this up.
 
     @commands.command(pass_context=True, brief='@<user>',
                       description='Kick user from chats.')
@@ -55,7 +55,8 @@ class BanCog:
     async def unban(self, ctx, userName: discord.User):
         try:
             role = discord.utils.get(ctx.message.server.roles, name='Chief')
-            user = discord.utils.get(ctx.message.server.members, name=userName.name)
+            user = discord.utils.get(ctx.message.server.members,
+                                     name=userName.name)
         except:
             print("Something went wrong.")
 

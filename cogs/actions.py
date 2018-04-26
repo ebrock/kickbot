@@ -41,7 +41,8 @@ class ActionsCog:
             return
         else:
             role = discord.utils.get(ctx.message.server.roles, name='Chief')
-            await self.client.say(('**{0.name}** muted **{1.name}**: **{2}** minute(s) '
+            await self.client.say(('**{0.name}** muted **{1.name}**: '
+                                 + '**{2}** minute(s) '
                                  + ':speak_no_evil:').format(ctx.message.author,
                                                              userName, time))
             await self.client.remove_roles(userName, role)
@@ -67,7 +68,8 @@ class ActionsCog:
     @commands.command(pass_context=True, description='Adds Westworld role.')
     async def westworld(self, ctx):
         try:
-            usr_roles = discord.utils.get(ctx.message.author.roles, name='Westworld')
+            usr_roles = discord.utils.get(ctx.message.author.roles,
+                                          name='Westworld')
         except:
             print('Does not have Westworld role.')
 
