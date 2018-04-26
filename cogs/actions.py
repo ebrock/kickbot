@@ -4,12 +4,11 @@ import asyncio
 import discord
 import random
 import urllib.request
-import giphypop
-from config.variables import phrases, emoji
+from utilities import Utilities
 from config.config import giphy_key
 from discord.ext.commands import Bot
 from discord.ext import commands
-from utilities import Utilities
+
 
 class ActionsCog:
     """User actions performed by kickbot."""
@@ -20,10 +19,10 @@ class ActionsCog:
     @commands.command(pass_context=True, brief='\'Think On Your Sins\' gif',
                       description='Sends \'Think On Your Sins\' gif')
     async def think(self, ctx):
-        dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        gif = dir_path + '/media/think_on_your_sins.gif'
+        utilities = Utilities()
+        gif = utilities.media_path() + '/media/think_on_your_sins.gif'
         await self.client.send_file(ctx.message.channel, fp=gif)
-        
+
 
     @commands.command(pass_context=True, brief="Creates a 1 time use invite.")
     async def invite(self, ctx):

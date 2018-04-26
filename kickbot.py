@@ -53,7 +53,8 @@ if __name__ == '__main__':
 @client.event
 async def on_command_error(error, ctx):
     if isinstance(error, commands.CommandOnCooldown):
-        await client.send_message(ctx.message.channel, content='This command is on a %.2fs cooldown' % error.retry_after)
+        #await client.send_message(ctx.message.channel, content='This command is on a %.2fs cooldown' % error.retry_after)
+        await client.send_message(ctx.message.channel, content='Try again after %.2f minute(s).' % (error.retry_after / 60))
     if isinstance(error, commands.MissingRequiredArgument):
         await client.send_message(ctx.message.channel,
                                   'Missing a required argument. ' +
@@ -70,5 +71,5 @@ async def on_ready():
     print("Kickbot Online!")
     print("Name: {}".format(client.user.name))
     print("ID: {}".format(client.user.id))
-    
+
 client.run(token)

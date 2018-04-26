@@ -2,27 +2,29 @@ import os
 import sys
 import random
 import discord
-from config.variables import phrases, emoji
+from utilities import Utilities
+from config.variables import ban_phrases, unban_phrases, emoji
 from discord.ext import commands
 
 class BanCog:
 
     def __init__(self, client):
         self.client = client
+        self.utilities = Utilities()
 
-    #@commands.command(pass_context=True)
+    @commands.command(pass_context=True)
     async def ban_list(self, ctx):
-        """ (1) get list of members
-            (2) get list of chiefs
-            (3) diff the lists = banned """
         members = ctx.message.server.members
-        member_list = []
-        for i in members:
-            member_list.append(i.name)
-            print('member: {0.name} / id: {0.id}'.format(i))
+        ban_list = []
+        for member in members:
+            role_names = [role.name for role in member.roles]
+            # role_names = []
+            # for role in member.roles:
+            #     role_names.append(role.name)
+            if 'Chief' not in role_names:
+                ban_list.append(member.name)
 
-        print('member_list: ', member_list)
-        await self.client.say(member_list)
+        await self.client.say(ban_list)
 
     @commands.command(pass_context=True, brief='@<user>',
                       description='Kick user from chats.')
@@ -43,10 +45,10 @@ class BanCog:
             await self.client.send_message(userName, 'You\'ve been banned.')
 
             dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-            gif = dir_path + '/media/thor_ban.gif'
-            kick_msg = (random.choice(phrases).format(userName).upper() + ' '
-                              + random.choice(emoji))
-            await self.client.send_file(ctx.message.channel, fp=gif, content=kick_msg)
+            gif = self.utilities.media_path() + '/media/thor_ban.gif'
+            msg = (self.utilities.rnd_msg(ban_phrases, userName)
+                   + ' ' + random.choice(emoji))
+            await self.client.send_file(ctx.message.channel, fp=gif, content=msg)
 
     @commands.command(pass_context=True, brief='@<user>',
                       description='Unban user.')
@@ -59,6 +61,7 @@ class BanCog:
 
         if role not in user.roles:
             await self.client.add_roles(user, role)
+            await self.client.say(self.utilities.rnd_msg(unban_phrases, user))
             print('Added User as Chief.')
             await self.client.send_message(user, 'You\'ve been unbanned.')
         else:

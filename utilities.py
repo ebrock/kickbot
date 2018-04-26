@@ -15,3 +15,9 @@ class Utilities:
         gif = dir_path + '/media/target.gif'
 
         return urllib.request.urlretrieve(img.media_url, gif)
+
+    def media_path(self):
+        return os.path.dirname(os.path.realpath(sys.argv[0]))
+
+    def rnd_msg(self, phrase_list, userName):
+        return random.choice(phrase_list).format(userName)
