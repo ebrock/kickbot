@@ -24,7 +24,9 @@ class BanCog:
         print('member_list: ', member_list)
         await self.client.say(member_list)
 
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, brief='@<user>',
+                      description='Kick user from chats.')
+    @commands.cooldown(1, 3600, commands.BucketType.server)
     async def ban(self, ctx, userName: discord.User):
         usr_roles = None
         try:
@@ -45,7 +47,8 @@ class BanCog:
                               + random.choice(emoji))
             await self.client.send_file(ctx.message.channel, fp=gif, content=kick_msg)
 
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, brief='@<user>',
+                      description='Unban user.')
     async def unban(self, ctx, userName: discord.User):
         try:
             role = discord.utils.get(ctx.message.server.roles, name='Chief')
