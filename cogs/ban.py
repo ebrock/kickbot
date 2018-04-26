@@ -40,6 +40,7 @@ class BanCog:
         else:
             await self.client.remove_roles(userName, role)
             print("Removed User as Chief.")
+            await self.client.send_message(userName, 'You\'ve been banned.')
 
             dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
             gif = dir_path + '/media/thor_ban.gif'
