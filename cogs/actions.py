@@ -38,7 +38,7 @@ class ActionsCog:
     #     await self.client.kick(userName)
 
     @commands.command(pass_context=True, brief="Creates a 1 time use invite.")
-    async def inv(self, ctx):
+    async def invite(self, ctx):
         inv_link = await self.client.create_invite(ctx.message.channel,
                                                    max_age=60, max_uses=1)
         await self.client.send_message(ctx.message.author, inv_link)
@@ -95,9 +95,6 @@ class ActionsCog:
             await self.client.add_roles(ctx.message.author, role)
         else:
             await self.client.remove_roles(ctx.message.author, role)
-
-
-
 
 
 def setup(client):

@@ -1,4 +1,8 @@
+import os
+import sys
+import random
 import discord
+from config.variables import phrases, emoji
 from discord.ext import commands
 
 class BanCog:
@@ -6,13 +10,19 @@ class BanCog:
     def __init__(self, client):
         self.client = client
 
-    @commands.command(pass_context=True)
+    #@commands.command(pass_context=True)
     async def ban_list(self, ctx):
-        bans = await self.client.get_bans(ctx.message.server)
-        await self.client.say('**BAN LIST**\n')
-        for i in bans:
-            print('{0}: {1}'.format(bans.index(i), i))
-            await self.client.say('{0}: {1} - id: {2}'.format(bans.index(i), i, i.id))
+        """ (1) get list of members
+            (2) get list of chiefs
+            (3) diff the lists = banned """
+        members = ctx.message.server.members
+        member_list = []
+        for i in members:
+            member_list.append(i.name)
+            print('member: {0.name} / id: {0.id}'.format(i))
+
+        print('member_list: ', member_list)
+        await self.client.say(member_list)
 
     @commands.command(pass_context=True)
     async def ban(self, ctx, userName: discord.User):
@@ -29,32 +39,27 @@ class BanCog:
             await self.client.remove_roles(userName, role)
             print("Removed User as Chief.")
 
-        # dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-        # gif = dir_path + '/media/thor_ban.gif'
-        # kick_msg = (("You've been kicked by **{0.name}**. "
-        #              + "You need an invite to rejoin. "
-        #              + ":cry:").format(ctx.message.author))
-
-        # await self.client.say(random.choice(phrases).format(userName).upper() + ' '
-        #                  + random.choice(emoji))
-        # await self.client.send_file(userName, fp=gif, content=kick_msg)
-
-
+            dir_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+            gif = dir_path + '/media/thor_ban.gif'
+            kick_msg = (random.choice(phrases).format(userName).upper() + ' '
+                              + random.choice(emoji))
+            await self.client.send_file(ctx.message.channel, fp=gif, content=kick_msg)
 
     @commands.command(pass_context=True)
-    async def unban(self, ctx, argument):
-        user_id = int(argument, base=10)
-        print('user_id', user_id)
-        ban_list = await self.client.get_bans(ctx.message.server)
-        print('ban_list: ', ban_list)
+    async def unban(self, ctx, userName: discord.User):
+        try:
+            role = discord.utils.get(ctx.message.server.roles, name='Chief')
+            user = discord.utils.get(ctx.message.server.members, name=userName.name)
+        except:
+            print("Something went wrong.")
 
-        for i in ban_list:
-            print('i.id: ', i.id)
-            if i.id == str(user_id):
-                print('success!')
-                await self.client.unban(ctx.message.server, i)
-                print('unbanned!')
-                await self.client.say('unbanned!')
+        if role not in user.roles:
+            await self.client.add_roles(user, role)
+            print('Added User as Chief.')
+        else:
+            print('User is already a Chief.')
+
+
 
 def setup(client):
     client.add_cog(BanCog(client))
