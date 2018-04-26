@@ -21,6 +21,14 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
+Client = discord.Client()
+bot_prefix = "$"
+client = commands.Bot(command_prefix=bot_prefix)
+
+cogs = ['cogs.actions',
+        'cogs.events',
+        'cogs.ban']
+
 def configure():
     token = prod
     parser = argparse.ArgumentParser(description='Select token.')
@@ -32,14 +40,6 @@ def configure():
         token = test
 
     return token
-
-Client = discord.Client()
-bot_prefix = "$"
-client = commands.Bot(command_prefix=bot_prefix)
-
-cogs = ['cogs.actions',
-        'cogs.events',
-        'cogs.ban']
 
 if __name__ == '__main__':
     token = configure()
@@ -70,7 +70,5 @@ async def on_ready():
     print("Kickbot Online!")
     print("Name: {}".format(client.user.name))
     print("ID: {}".format(client.user.id))
-    # await client.send_message(client.get_channel('423630673199497228'),
-    #                          "Eric Brock's kickbot is online.")
-
+    
 client.run(token)
