@@ -59,6 +59,7 @@ class BanCog:
         if role not in user.roles:
             await self.client.add_roles(user, role)
             print('Added User as Chief.')
+            await self.client.send_message(user, 'You\'ve been unbanned.')
         else:
             print('User is already a Chief.')
 
