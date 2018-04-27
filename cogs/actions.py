@@ -80,6 +80,22 @@ class ActionsCog:
         else:
             await self.client.remove_roles(ctx.message.author, role)
 
+    @commands.command(pass_context=True, description='Adds Infinity War role.')
+    async def infinitywar(self, ctx):
+        try:
+            usr_roles = discord.utils.get(ctx.message.author.roles,
+                                          name='Infinity War')
+        except:
+            print('Does not have Infinity War role.')
+
+        role = discord.utils.get(ctx.message.server.roles, name='Infinity War')
+
+        if usr_roles is None:
+            await self.client.add_roles(ctx.message.author, role)
+        else:
+            await self.client.remove_roles(ctx.message.author, role)
+
+
 
 def setup(client):
     client.add_cog(ActionsCog(client))
