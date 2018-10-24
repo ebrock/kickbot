@@ -18,9 +18,7 @@ class BanCog:
         ban_list = []
         for member in members:
             role_names = [role.name for role in member.roles]
-            # role_names = []
-            # for role in member.roles:
-            #     role_names.append(role.name)
+            
             if 'Chief' not in role_names:
                 ban_list.append(member.name)
 
